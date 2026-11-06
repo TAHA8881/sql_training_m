@@ -276,18 +276,34 @@ WHERE status <> 'failed' OR status <>'refunded'
 
 -- 1. Подсчитайте количество клиентов по городам; отдельно подумайте, куда попадает `NULL`.
 -- Запрос:
+SELECT city, COUNT(full_name) AS full_name_count
+FROM customers
+GROUP BY city
 
 -- 2. Подсчитайте заказы по каждому статусу.
 -- Запрос:
+SELECT status, COUNT(status) AS status_count
+FROM orders
+GROUP BY status
 
 -- 3. Найдите число товаров в каждой категории по `category_id`.
 -- Запрос:
+SELECT category_id, COUNT(product_name) AS product_name_count
+FROM products
+GROUP BY category_id
 
 -- 4. Найдите среднюю зарплату по `branch_id`.
 -- Запрос:
+SELECT branch_id, AVG(salary) AS salary_count
+FROM employees
+GROUP BY branch_id
 
 -- 5. Найдите филиалы, в которых работает более 5 сотрудников (`HAVING`).
 -- Запрос:
+SELECT branch_id
+FROM employees
+GROUP BY branch_id
+HAVING COUNT(first_name)>5
 
 -- 6. Выведите количество заказов по каждому месяцу (`date_trunc('month', order_date)`).
 -- Запрос:
