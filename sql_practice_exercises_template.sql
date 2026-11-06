@@ -172,28 +172,45 @@ ORDER BY rating
 
 -- 1. Выведите название товара и цену после гипотетической скидки 10% (`discounted_price`).
 -- Запрос:
+SELECT product_name, list_price*0.9 AS discounted_price
+FROM products
 
 -- 2. Выведите название, цену, себестоимость и разницу между ними (`margin_amount`).
 -- Запрос:
+SELECT product_name, list_price, cost_price, list_price-cost_price AS margin_amount
+FROM products
 
 -- 3. Рассчитайте процент наценки относительно себестоимости. Округлите до двух знаков (`ROUND`).
 -- Запрос:
+SELECT product_name, list_price, cost_price, ROUND((list_price-cost_price)/cost_price*100) AS amount
+FROM products
 
 -- 4. Выведите `order_id`, `quantity`, `unit_price` и сумму строки заказа **до** скидки.
 -- Запрос:
+SELECT order_id, quantity, unit_price,(quantity*unit_price) AS total_price
+FROM order_items
 
 -- 5. Рассчитайте сумму строки заказа **после** скидки в `order_items`.
 -- Запрос:
+SELECT (unit_price*quantity*(1-discount_pct/100)) AS after_discount_price
+FROM order_items
 
 -- 6. Выведите сотрудника и его годовой оклад (`salary * 12`).
 -- Запрос:
+SELECT *, salary * 12 AS oclad
+FROM employees
 
 -- 7. Получите свободный для продажи остаток: `quantity - reserved_qty`.
 -- Запрос:
+SELECT quantity - reserved_qty AS leftovers
+FROM stocks
+
 
 -- 8. Продемонстрируйте разницу между целочисленным делением и делением с десятичной дробью на одном примере.
 -- Запрос:
-
+SELECT 6/2 AS first_count
+------------------------
+SELECT 6/2.0 AS first_count
 
 -- ===========================================================================
 -- Тема 5. Агрегатные функции: `COUNT`, `SUM`, `AVG`, `MIN`, `MAX`
