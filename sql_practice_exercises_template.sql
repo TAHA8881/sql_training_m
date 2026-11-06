@@ -116,28 +116,55 @@ WHERE city = 'Москва' OR city = 'Казань' AND NOT is_active = 'true'
 
 -- 1. Получите список уникальных городов клиентов, без пустых значений.
 -- Запрос:
+SELECT DISTINCT city
+FROM customers
+WHERE city IS NOT NULL
 
 -- 2. Выведите 10 самых дорогих товаров.
 -- Запрос:
+SELECT *
+FROM products
+ORDER BY list_price DESC
+LIMIT 10
 
 -- 3. Выведите 10 самых дешёвых товаров, сначала более дешёвые; при равной цене сортируйте по названию.
 -- Запрос:
+SELECT *
+FROM products
+ORDER BY list_price ASC, product_name ASC
+LIMIT 10
 
 -- 4. Выведите 5 последних заказов по `order_date`.
 -- Запрос:
+SELECT *
+FROM orders
+ORDER BY order_date DESC
+LIMIT 5 
 
 -- 5. Получите 10 клиентов, зарегистрированных раньше остальных.
 -- Запрос:
+SELECT *
+FROM customers
+ORDER BY registered_at ASC
+LIMIT 10
 
 -- 6. Выведите вторую страницу каталога товаров: 10 товаров на странице; порядок по `product_id`.
 -- Запрос:
+SELECT *
+FROM products
+ORDER BY product_id ASC
+LIMIT 10 OFFSET 10
 
 -- 7. Получите уникальные пары «статус заказа — тип доставки».
 -- Запрос:
+SELECT DISTINCT status, delivery_type
+FROM orders
 
 -- 8. Выведите поставщиков по убыванию рейтинга, размещая `NULL` в конце (`NULLS LAST`).
 -- Запрос:
-
+SELECT supplier_name, rating
+FROM suppliers
+ORDER BY rating
 
 -- ===========================================================================
 -- Тема 4. Вычисляемые столбцы, типы и арифметика
