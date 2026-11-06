@@ -218,28 +218,57 @@ SELECT 6/2.0 AS first_count
 
 -- 1. Посчитайте общее количество клиентов.
 -- Запрос:
+SELECT COUNT(customer_id) AS count_customer
+FROM customers
 
 -- 2. Посчитайте число активных товаров.
 -- Запрос:
+SELECT COUNT(is_active) AS count_active
+FROM products
+WHERE is_active = 'true'
 
 -- 3. Найдите минимальную, максимальную и среднюю цену товара в одном запросе.
 -- Запрос:
+SELECT
+MIN(list_price) AS min_count,
+MAX(list_price) AS max_count,
+AVG(list_price) AS avg_count
+FROM products
 
 -- 4. Найдите общую сумму `quantity` на всех складских остатках.
 -- Запрос:
+SELECT
+SUM(quantity) AS quantity_count
+FROM stocks
 
 -- 5. Найдите количество заказов со статусом `completed`.
 -- Запрос:
+SELECT
+COUNT(*) AS orders_count
+FROM orders
+WHERE status = 'completed'
 
 -- 6. Вычислите среднюю зарплату сотрудников.
 -- Запрос:
+SELECT
+ROUND(AVG(salary), 2) AS salary_count
+FROM employees
 
 -- 7. Сравните `COUNT(*)` и `COUNT(phone)` для `customers`. Почему значения различаются?
 -- Запрос:
+SELECT
+COUNT(*) AS customers_count,
+COUNT(phone) AS phone_count
+FROM customers
+
+#одно считает все строчки, другое заполненные строчки
 
 -- 8. Вычислите общую сумму **успешных** платежей, исключив `failed` и `refunded`.
 -- Запрос:
-
+SELECT
+SUM(amount) AS customers_count
+FROM payments
+WHERE status <> 'failed' OR status <>'refunded'
 
 -- ===========================================================================
 -- Тема 6. Группировка: `GROUP BY`, `HAVING`, `FILTER`
