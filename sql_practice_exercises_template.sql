@@ -52,34 +52,63 @@ FROM employees
 
 -- 1. Найдите товары дороже 20 000 рублей.
 -- Запрос:
+SELECT *
+FROM products
+WHERE list_price > 20000
 
 -- 2. Найдите клиентов из Москвы.
 -- Запрос:
+SELECT *
+FROM customers
+WHERE city = 'Москва'
 
 -- 3. Найдите все заказы со статусом `cancelled`.
 -- Запрос:
+SELECT *
+FROM orders
+WHERE status = 'cancelled'
 
 -- 4. Найдите товары с ценой от 1 000 до 5 000 рублей включительно, используя `BETWEEN`.
 -- Запрос:
+SELECT *
+FROM products
+WHERE  list_price BETWEEN 1000 AND 5000
 
 -- 5. Найдите заказы со статусами `new`, `paid` или `shipped` через `IN`.
 -- Запрос:
+SELECT *
+FROM orders
+WHERE  status IN ('new', 'paid', 'shipped')
 
 -- 6. Найдите товары, в названии которых есть `Ноутбуки` (`LIKE` / `ILIKE`).
 -- Запрос:
+SELECT *
+FROM products
+WHERE product_name LIKE 'Ноутбуки'
 
 -- 7. Найдите клиентов, у которых отсутствует телефон.
 -- Запрос:
+SELECT *
+FROM customers
+WHERE phone IS NULL
 
 -- 8. Найдите активных сотрудников с зарплатой больше 70 000 рублей.
 -- Запрос:
+SELECT *
+FROM employees
+WHERE salary > 70000 AND is_active = 'true'
 
 -- 9. Найдите заказы с курьерской доставкой и без промокода.
 -- Запрос:
+SELECT *
+FROM orders
+WHERE delivery_type = 'courier' AND coupon_code IS NULL
 
 -- 10. Найдите клиентов из Москвы или Казани, исключив неактивные аккаунты. Правильно расставьте скобки в условии.
 -- Запрос:
-
+SELECT *
+FROM customers
+WHERE city = 'Москва' OR city = 'Казань' AND NOT is_active = 'true'
 
 -- ===========================================================================
 -- Тема 3. Уникальные значения, сортировка, первые строки: `DISTINCT`, `ORDER BY`, `LIMIT`, `OFFSET`
