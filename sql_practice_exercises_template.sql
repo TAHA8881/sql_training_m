@@ -307,16 +307,33 @@ HAVING COUNT(first_name)>5
 
 -- 6. Выведите количество заказов по каждому месяцу (`date_trunc('month', order_date)`).
 -- Запрос:
+SELECT DATE_TRUNC('month', order_date), COUNT(*)
+FROM orders
+GROUP BY DATE_TRUNC('month', order_date)
+ORDER BY DATE_TRUNC('month', order_date)
 
 -- 7. Найдите клиентов, у которых более 10 заказов.
 -- Запрос:
+SELECT customer_id, COUNT(order_id)>10 AS count_order_id
+FROM orders
+GROUP BY customer_id
+ORDER BY count_order_id
 
 -- 8. Выведите по каждому `order_id` количество различных товаров и суммарное количество единиц товаров.
 -- Запрос:
+SELECT order_id, COUNT(product_id) AS count_product_id, COUNT(quantity) AS count_quantity
+FROM order_items
+GROUP BY order_id
+ORDER BY order_id
 
 -- 9. Подсчитайте для каждого способа оплаты число успешных и неуспешных платежей в отдельных столбцах (`COUNT(*) FILTER (WHERE ...)`).
 -- Запрос:
-
+SELECT method,
+COUNT(*) FILTER (WHERE status='succeeded') AS count_succeeded,
+COUNT(*) FILTER (WHERE status='failed') AS count_failed
+FROM payments
+GROUP BY method
+ORDER BY method
 
 -- ===========================================================================
 -- Тема 7. Проектирование таблиц: `CREATE TABLE`, `ALTER TABLE`, ограничения
