@@ -406,9 +406,26 @@ FROM
 WHERE 
     conrelid = 'product_reviews'::regclass;
 
--- 11. Создайте временную тренировочную таблицу `ddl_sandbox` с двумя полями; добавьте поле, измените его тип, удалите одно поле, переименуйте таблицу и удалите её. Основную `product_reviews` не удаляйте.
+-- 11. Создайте временную тренировочную таблицу `ddl_sandbox` с двумя полями; добавьте поле, 
+-- измените его тип, удалите одно поле, переименуйте таблицу и удалите её. Основную `product_reviews` не удаляйте.
 -- Запрос:
+CREATE TEMPORARY TABLE ddl_sandbox (
+    employee_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50)
+);
 
+ALTER TABLE ddl_sandbox
+ADD COLUMN last_name TEXT;
+
+ALTER TABLE ddl_sandbox
+ALTER COLUMN last_name TYPE VARCHAR(50);
+
+ALTER TABLE ddl_sandbox
+DROP COLUMN last_name;
+
+ALTER TABLE ddl_sandbox RENAME TO ddl_sandbox_2;
+
+DROP TABLE ddl_sandbox_2;
 
 -- ===========================================================================
 -- Тема 8. Изменение данных: `INSERT`, `UPDATE`, `DELETE`, `RETURNING`
