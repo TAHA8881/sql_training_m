@@ -521,30 +521,62 @@ Detail: Ключ (product_id)=(0) отсутствует в таблице "prod
 
 -- 1. Выведите заказ и ФИО клиента, который его оформил.
 -- Запрос:
+SELECT customers.full_name, orders.order_id 
+FROM customers
+INNER JOIN orders ON customers.customer_id = orders.customer_id
 
 -- 2. Выведите товар и название его категории.
 -- Запрос:
+SELECT products.product_id, categories.category_name
+FROM products
+LEFT JOIN categories ON products.category_id = categories.category_id
 
 -- 3. Выведите сотрудника и название его филиала.
 -- Запрос:
+SELECT employees.employee_id, branches.branch_name
+FROM employees
+LEFT JOIN branches ON employees.branch_id = branches.branch_id
 
 -- 4. Выведите заказ и сумму каждого связанного с ним платежа; учитывайте, что платежей может быть больше одного.
 -- Запрос:
+SELECT orders.order_id, payments.amount
+FROM orders
+LEFT JOIN payments ON orders.order_id = payments.order_id
 
 -- 5. Выведите **всех** клиентов и число их заказов, включая клиентов с нулём заказов.
 -- Запрос:
+SELECT customers.customer_id, customers.full_name, COUNT(orders.order_id) AS order_count
+FROM customers
+LEFT JOIN orders ON customers.customer_id = orders.customer_id
+GROUP BY customers.customer_id, customers.full_name
+ORDER BY order_count DESC;
 
 -- 6. Найдите клиентов, которые ни разу не оформляли заказ (`LEFT JOIN ... IS NULL`).
 -- Запрос:
+SELECT customers.customer_id, orders.order_id
+FROM customers
+LEFT JOIN orders ON customers.customer_id = orders.customer_id
+WHERE orders.order_id IS NULL
 
 -- 7. Выведите **все** товары и имеющиеся остатки в филиале 1, включая товары без записи об остатке в этом филиале.
 -- Запрос:
+SELECT stocks.product_id, branches.branch_id
+FROM stocks
+LEFT JOIN branches ON stocks.branch_id = branches.branch_id
+WHERE branches.branch_id = 1 OR branches.branch_id IS NULL
+ORDER BY stocks.product_id ASC
 
 -- 8. Выведите **все** заказы и номера отправлений, включая заказы без отправлений.
 -- Запрос:
+SELECT orders.order_id, shipments.tracking_number
+FROM orders
+LEFT JOIN shipments ON orders.order_id = shipments.order_id
 
 -- 9. Покажите все категории, в том числе категории без товаров непосредственно в этой категории.
 -- Запрос:
+SELECT categories.category_id, products.product_id
+FROM categories
+LEFT JOIN products ON categories.category_id = products.category_id
 
 
 -- ===========================================================================
