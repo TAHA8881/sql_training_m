@@ -433,34 +433,87 @@ DROP TABLE ddl_sandbox_2;
 
 -- 1. Добавьте один отзыв: клиент 1, товар 1, рейтинг 5, комментарий «Отличное качество товара».
 -- Запрос:
+INSERT INTO product_reviews(customer_id, product_id, rating, comment_text)
+VALUES (1, 1, 5, 'Отличное качество товара')
 
 -- 2. Добавьте одной командой ещё 7 отзывов от клиентов 2–8 на товары 2–8 соответственно. Используйте разные оценки от 1 до 5.
 -- Запрос:
+INSERT INTO product_reviews(customer_id, product_id, rating, comment_text)
+VALUES
+(2, 2, 1, 'Плохое качество товара'),
+(3, 3, 3, 'Нормальное качество товара'),
+(4, 4, 5, 'Отличное качество товара'),
+(5, 5, 4, 'Хорошее качество товара'),
+(6, 6, 5, 'Отличное качество товара'),
+(7, 7, 5, 'Отличное качество товара'),
+(8, 8, 5, 'Отличное качество товара')
 
 -- 3. Добавьте отзыв без `created_at` и `is_published` и проверьте значения по умолчанию (используйте новую пару клиент–товар).
 -- Запрос:
+--created_at по умолчанию время, в которое он был записан, is_published по умолчанию true
 
 -- 4. Измените рейтинг отзыва клиента 1 на 4.
 -- Запрос:
+UPDATE product_reviews 
+SET rating = 4
+WHERE rating = 1;
 
 -- 5. Сделайте отзыв клиента 2 неопубликованным (`is_published = FALSE`).
 -- Запрос:
+UPDATE product_reviews 
+SET is_published = FALSE
+WHERE customer_id = 2;
 
 -- 6. Обновите сразу несколько отзывов: увеличьте рейтинг на 1 только там, где рейтинг меньше 5.
 -- Запрос:
+UPDATE product_reviews 
+SET rating = rating + 1
+WHERE rating < 5;
 
 -- 7. Удалите отзыв клиента 8; выведите удалённую запись с помощью `RETURNING`.
 -- Запрос:
+DELETE FROM product_reviews
+WHERE customer_id = 8
+RETURNING *;
 
 -- 8. Попробуйте вставить рейтинг 6 и объясните причину ошибки.
 -- Запрос:
+INSERT INTO product_reviews(rating)
+VALUES (6)
+
+Ошибочная строка содержит (10, null, null, 6, null, 2026-11-10 13:52:19.559792, t). 
+
+ОШИБКА:  значение NULL в столбце "customer_id" отношения "product_reviews" нарушает ограничение NOT NULL
+SQL state: 23502
+Detail: Ошибочная строка содержит (10, null, null, 6, null, 2026-11-10 13:52:19.559792, t).
 
 -- 9. Попробуйте повторно добавить отзыв клиента 1 на товар 1 и объясните работу `UNIQUE`.
 -- Запрос:
+INSERT INTO product_reviews(customer_id, product_id)
+VALUES (1, 1)
+
+ERROR:  значение NULL в столбце "rating" отношения "product_reviews" нарушает ограничение NOT NULL
+Ошибочная строка содержит (11, 1, 1, null, null, 2026-11-10 13:54:02.321707, t). 
+
+ОШИБКА:  значение NULL в столбце "rating" отношения "product_reviews" нарушает ограничение NOT NULL
+SQL state: 23502
+Detail: Ошибочная строка содержит (11, 1, 1, null, null, 2026-11-10 13:54:02.321707, t).
 
 -- 10. Попробуйте сослаться на несуществующий товар и объясните работу внешнего ключа.
 -- Запрос:
 
+SET search_path TO training_shop, public;
+
+INSERT INTO product_reviews(customer_id, product_id, rating, comment_text)
+VALUES
+(2, 0, 1, 'Плохое качество товара')
+
+ERROR:  INSERT или UPDATE в таблице "product_reviews" нарушает ограничение внешнего ключа "fk_product_id"
+Ключ (product_id)=(0) отсутствует в таблице "products". 
+
+ОШИБКА:  INSERT или UPDATE в таблице "product_reviews" нарушает ограничение внешнего ключа "fk_product_id"
+SQL state: 23503
+Detail: Ключ (product_id)=(0) отсутствует в таблице "products".
 
 -- ===========================================================================
 -- Тема 9. Соединение двух таблиц: `INNER JOIN`, `LEFT JOIN`
